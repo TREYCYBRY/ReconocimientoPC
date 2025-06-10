@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Historial de Componentes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+
+    <style>
+        body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: rgba(39, 36, 53, 1);
+      color: #fff;
+    }
+
+        .navbar {
+  background-color: rgba(39, 36, 53, 1);
+  color: white;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+        /* Cambiado flex-direction a fila para navbar-left */
+        .navbar-left{
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        font-size: 0.9rem;
+        }
+
+        .navbar-right {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+            font-size: 0.9rem;
+            gap: 10px;
+        }
+
+        .navbar-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .navbar-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #FF631B; /* Resalta */
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+        }
+
+        .navbar-right a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            background-color: #FF631B;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar-right a:hover {
+            background-color: #e45611;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #B399F0; /* Cambiado al color pedido */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.4);
+            color: #1e1e1e; /* Texto oscuro para buen contraste */
+        }
+
+        h2 {
+            text-align: center;
+            color: #4B367C; /* Un morado más oscuro para el título, que contraste */
+            margin-bottom: 1.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            text-align: left;
+            vertical-align: middle;
+            color: #333;
+        }
+
+        th {
+            background-color: #8C7BCA;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #E5E0F7;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #F5F3FB;
+        }
+
+        .alert {
+            padding: 1rem;
+            background-color: #6b5b95;
+            color: #fff;
+            border-radius: 5px;
+            text-align: center;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="navbar-left">
+        <span>Usuario: {{ session['usuario'] }}</span>
+        <span>Código de estudiante: {{ session['codigo'] }}</span>
+        <span>Carrera: {{ session['carrera'] }}</span>
+    </div>
+    <div class="navbar-center">
+        <div class="navbar-title">IngeScan</div>
+    </div>
+    <div class="navbar-right">
+        <a href="/">Inicio</a>
+        <a href="/logout">Cerrar sesión</a>
+    </div>
+</nav>
+
+<div class="container">
+    <h2>Historial de Componentes Buscados</h2>
+
+    {% if historial %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Componente</th>
+                    <th>MPN</th>
+                    <th>Fabricante</th>
+                    <th>Descripción</th>
+                    <th>Categoría</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in historial %}
+                    <tr>
+                        <td>{{ item[0] }}</td>
+                        <td>{{ item[1] }}</td>
+                        <td>{{ item[2] }}</td>
+                        <td>{{ item[3] }}</td>
+                        <td>{{ item[4] }}</td>
+                        <td>{{ item[5] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alert">
+            No se encontraron registros en el historial.
+        </div>
+    {% endif %}
+</div>
+
+</body>
+</html>

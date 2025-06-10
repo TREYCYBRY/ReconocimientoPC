@@ -1,0 +1,22 @@
+#Github:
+# Entornos virtuales
+venv/
+env/
+ENV/
+
+
+# Archivos de caché de Python
+__pycache__/
+*.pyc
+
+
+# Configs locales
+*.sqlite3
+*.log
+*.env
+
+
+# VSCode u otros editores
+.vscode/
+.idea/
+.DS_Store

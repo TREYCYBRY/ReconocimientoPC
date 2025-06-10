@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: rgba(39, 36, 53, 1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .login-container {
+      background-color: #B399F0;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      text-align: center;
+      width: 300px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #272435;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 5px;
+      background-color: transparent;
+      color: #272435;
+    }
+
+    button {
+      background-color: #FF631B;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #e45611;
+    }
+
+    p {
+      margin-top: 20px;
+      color: #272435;
+      font-size: 14px;
+    }
+
+    a {
+      color: #4c2e91;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .toast {
+  position: fixed;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #FF631B;
+  color: white;
+  padding: 15px 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  opacity: 1;
+  z-index: 9999;
+  transition: opacity 0.5s ease-out;
+  animation: fadeOut 4s forwards;
+  text-align: center;
+}
+
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+  </style>
+
+  <script>
+  setTimeout(() => {
+    const toast = document.getElementById('toast');
+    if (toast) toast.remove();
+  }, 7000);
+</script>
+
+</head>
+<body>
+  <div class="login-container">
+    <h2>Iniciar Sesión</h2>
+    <form method="POST">
+      <input type="text" name="codigo" placeholder="Código de estudiante" required><br>
+      <input type="password" name="password" placeholder="Contraseña" required><br>
+      <button type="submit">Ingresar</button>
+    </form>
+    <p>¿No tienes cuenta? <a href="{{ url_for('register') }}">Regístrate aquí</a></p>
+
+    
+
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div id="toast" class="toast">
+      {{ messages[0] }}
+    </div>
+  {% endif %}
+{% endwith %}
+
+</body>
+</html>

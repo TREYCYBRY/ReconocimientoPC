@@ -1,0 +1,52 @@
+body {
+    font-family: Arial;
+    background: #f4f4f4;
+    padding: 20px;
+}
+
+h1, h2 {
+    color: #2c3e50;
+}
+
+.imagen {
+    margin: 20px 0;
+}
+
+.info-componente {
+    background: #fff;
+    border-left: 6px solid #2980b9;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+button {
+    padding: 10px 20px;
+    background: #3498db;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.upload-container {
+    border: 3px dashed #3498db;
+    border-radius: 10px;
+    padding: 30px;
+    background: #ecf0f1;
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.upload-container.highlight {
+    border-color: #1abc9c;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+
+

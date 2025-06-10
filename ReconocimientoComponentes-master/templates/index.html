@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Reconocimiento de Componentes</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: rgba(39, 36, 53, 1);
+      color: #fff;
+    }
+
+    /* NAVBAR */
+  .navbar {
+  background-color: rgba(39, 36, 53, 1);
+  color: white;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+.navbar-left,
+.navbar-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+}
+
+.navbar-right {
+  align-items: flex-end;
+}
+
+.navbar-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.navbar-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #FF631B; /* Hace que resalte */
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+}
+
+    .navbar-right a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      background-color: #FF631B;
+      padding: 8px 12px;
+      border-radius: 5px;
+    }
+
+    .navbar-right a:hover {
+      background-color: #e45611;
+    }
+    /* MAIN CONTENT */
+    h1, h2 {
+      text-align: center;
+      color: #B399F0;
+    }
+
+    form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}
+
+.upload-container {
+  background-color: #B399F0;
+  border-radius: 10px;
+  padding: 20px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  width: 300px;
+  text-align: center;
+}
+
+.btn-analizar {
+  background-color: #FF631B;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.btn-historial {
+    background-color: #FF631B;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+    text-align: center;
+    margin-top: 10px;
+}
+
+
+    .btn-analizar:hover {
+      background-color: #e45611;
+    }
+
+    /* IMÁGENES LADO A LADO */
+    .imagenes-contenedor {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin: 30px 0;
+      flex-wrap: wrap;
+    }
+
+    .imagen {
+      text-align: center;
+    }
+
+    .imagen img {
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    /* INFO COMPONENTES EN TRES CUADROS */
+    .info-componentes {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 30px 0;
+      flex-wrap: wrap;
+    }
+
+    .info-componente {
+      background-color: #8E7CC3;
+      padding: 20px;
+      border-radius: 10px;
+      width: 300px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      color: white;
+    }
+
+    .info-componente h3 {
+      margin-top: 0;
+      color: #fff;
+    }
+
+    .info-componente p {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Barra de navegación -->
+  <div class="navbar">
+  <div class="navbar-left">
+    <span>Usuario: {{ session['usuario'] }}</span>
+    <span>Código de estudiante: {{ session['codigo'] }}</span>
+    <span>Carrera: {{ session['carrera'] }}</span>
+    
+  </div>
+
+  <div class="navbar-center">
+    <span class="navbar-title">IngeScan</span>
+  </div>
+  
+  <div class="navbar-right">
+    <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+  </div>
+</div>
+
+
+  <h1>Detectar Componente Electrónico</h1>
+
+  <form method="POST" enctype="multipart/form-data" id="formulario">
+    <div id="drop-area" class="upload-container">
+      <p>Arrastra la imagen aquí o haz clic para seleccionar</p>
+      <input type="file" id="imagenInput" name="imagen" accept="image/*" required hidden>
+    </div>
+    <button type="submit" class="btn-analizar">Analizar componente</button>
+    <a href="/historial" class="btn-historial">Historial</a>
+  </form>
+
+  {% if nombre %}
+    <div class="imagenes-contenedor">
+      <div class="imagen">
+        <h2>Imagen Original</h2>
+        <img src="{{ url_for('static', filename='original.jpg') }}" width="400">
+      </div>
+      <div class="imagen">
+        <h2>Imagen Procesada</h2>
+        <img src="{{ url_for('static', filename='resultado.jpg') }}" width="400">
+      </div>
+    </div>
+
+    <h2>Componente Detectado: {{ nombre }}</h2>
+
+    <div class="info-componentes">
+      {% for dato in resultados %}
+      <div class="info-componente">
+        <h3>{{ dato.mpn }}</h3>
+        <p><strong>Fabricante:</strong> {{ dato.manufacturer }}</p>
+        <p><strong>Descripción:</strong> {{ dato.descripcion }}</p>
+        <p><strong>Categoría:</strong> {{ dato.categoria }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <script>
+    const dropArea = document.getElementById("drop-area");
+    const fileInput = document.getElementById("imagenInput");
+    const form = document.getElementById("formulario");
+
+    dropArea.addEventListener("click", () => fileInput.click());
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(event => {
+      dropArea.addEventListener(event, e => {
+        e.preventDefault();
+        e.stopPropagation();
+      });
+    });
+
+    ['dragenter', 'dragover'].forEach(() => {
+      dropArea.classList.add("highlight");
+    });
+
+    ['dragleave', 'drop'].forEach(() => {
+      dropArea.classList.remove("highlight");
+    });
+
+    dropArea.addEventListener("drop", e => {
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        fileInput.files = files;
+        form.submit();
+      }
+    });
+  </script>
+</body>
+</html>
